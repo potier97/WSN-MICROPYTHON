@@ -1,0 +1,163 @@
+MicroPython
+
+Herramienta de CLI para flash esp8266 esp32
+> sudo pip3 install esptool
+
+Herramienta shell para ejecutar con micropython
+> sudo pip3 install rshell
+
+Obtener puerto usb del dispositivo con su CONTROLADOR UART
+> dmesg | grep ttyUSB
+
+Obtener caracteristicas de la placa ESP
+> esptool.py --port /dev/ttyUSB0 flash_id
+
+Borrar memoria flash de Microcontrolador
+> esptool.py --port /dev/ttyUSB0 erase_flash
+
+Deploy the new firmware
+  Primera Forma
+> esptool.py --port /dev/ttyUSB0 --baud 115200 write_flash --flash_size=detect 0 esp8266-20191220-v1.12.bin
+
+  Segunda Forma FlashRom -fm dio
+> esptool.py --port /dev/ttyUSB0 --baud 115200 write_flash --flash_size=detect -fm dio 0 esp8266-20191220-v1.12.bin
+
+
+Conectarse por medio de comandos shell a la esp8266
+>  rshell --buffer-size=30 -p /dev/ttyUSB0
+
+Ver las boards disponibles -> Tiene que estar dentro del RSHELL
+>  boards
+
+Ejecutar REPL - SALIR CTRL + X
+>  REPL
+
+Prender y  Apagar LED Con REPL -- Con RSHELL ACTIVADO
+>>>  import machine
+>>> import time
+>>> pin = machine.Pin(2, machine.Pin.OUT)
+>>> pin.off()
+>>> pin.on()
+>>> while(1):
+...     pin.on()
+...     time.sleep(1)
+...     pin.off()
+...     time.sleep(1)
+...
+...
+...
+>>>  ---- SALIR CON CTROL + X
+
+
+Importar SCRIPT al board para ser ejecutado
+Dentro de RSHELL Se ejecuta lo siguiente, teniendo un script ya realizado
+>  rshell --buffer-size=30 -p /dev/ttyUSB0
+>  ls /pyboard
+>  cp test.py /pyboard
+>  REPL
+>>> import test
+El script se ejecuta ciando se llama al import
+
+
+
+Comunicacion serial con minicom a la esp8266
+>  sudo apt-get install minicom
+
+Iniciar minicom
+> minicom -s
+
+Los comandos de minicom deben estar configurados de la siguiente manera
+>  Serial device  /dev/ttyUSB0
+>  lockfile Location  /var/lock
+>  Bps/Par/Bits 115200 SN1
+>  Hardware Flow COntrol  No
+>  Software Flow Control  No
+Para Iniciar Minicom se guarda el documento y luego se dirige a EXIT
+Allí comienza la comunicacion con la BOARD
+Para salir de minicom y finalizar la conexion
+>   CTRL + A + Q
+
+
+
+Para mirar todos los archivos que estan dentro del board
+> import os
+> os.listdir()
+
+
+
+Para guardar en memoria de la esp8266 un Script este se debe llamar main.py
+SE EJECUTARA DESPUES DE BOOT.PY
+>  rshell --buffer-size=30 -p /dev/ttyUSB0 
+>  ls /pyboards
+>  cp main.py /pyboards/main.py 
+
+
+
+PARA CARGAR NUEVAS APLICACIONES AL BOARD UTILIZANDO RSHELL sin tener que ingrasar a la terminal de rshell y luego salir de la herramienta
+>  rshell --port /dev/ttyUSB0  cp main.py /pyboard/main.py
+
+PARA BORRAR LA APLICACION DE LA BOARD Y/O BORRAR OTRO DOCUMENTO DENTRO DE LA BOARD
+>  rshell --port /dev/ttyUSB0 rm /pyboard/main.py
+
+
+
+
+HERRAMIENTA PYBOARD PARA GESTION DE LA TARGETA
+Herramienta de Mycropython
+PYBOARD.PY 
+  Cargar script solo en ROM, NO LO ESCRIBE EN LOS ARCHIVOS
+> ./pyboard.py --device /dev/ttyUSB0 main.py
+  Para detener CTRL+C pero el board seguirá ejecutando hasta que re reinicie 
+
+
+Filesystem access - PYBOARD
+-f  ...para acceder al directorio
+
+-cat path
+
+-ls [path]
+
+-rm path
+
+-mkdir path
+
+-rmdir path
+
+
+El cpcomando utiliza una sshconvención similar para referirse a archivos locales y remotos. Cualquier ruta que comience con a :se interpretará como en el dispositivo; de lo contrario, será local. Entonces:
+>  pyboard.py --device /dev/ttyUSB0 -f cp main.py :main.py
+
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+
+copiará main.py del directorio actual en la PC a un archivo llamado main.py en el dispositivo. El nombre del archivo se puede omitir, por ejemplo:
+>  pyboard.py --device/dev/ttyUSB0 -f cp main.py:
+
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+
+Copie tres archivos al dispositivo, manteniendo sus nombres 
+y rutas (nota: `lib` debe existir en el dispositivo) 
+>   pyboard.py --device /dev/ttyUSB0 -f cp main.py app.py lib/foo. py: 
+
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+
+Eliminar un archivo del dispositivo.
+>  pyboard.py --device /dev/ttyUSB0 -f rm util.py
+
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+
+Imprime el contenido de un archivo en el dispositivo
+>  pyboard.py --device /dev/ttyUSB0 -f cat boot.py
+
+
+////////////MICIOM/////////////////////////////////////////////
+
+Para acceder al minicon sin mas unidades  USB en serial
+minicon -s
+
+
+Si hay varios dispositivos conectados se debe especificar el puerto
+minicom -D /dev/ttyUSB0
