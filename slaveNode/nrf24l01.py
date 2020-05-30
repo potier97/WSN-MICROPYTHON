@@ -1,4 +1,7 @@
 """NRF24L01 driver for MicroPython
+   Este documento contiene los registros para la manipulacion del NRF24L01
+   Para mas información revisar los Driver en su Repositorio de Git
+   https://github.com/micropython/micropython
 """
 
 from micropython import const

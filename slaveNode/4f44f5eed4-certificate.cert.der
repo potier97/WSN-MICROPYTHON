@@ -1,0 +1,1 @@
+Este es un documento de prueba .der - para generar el certificado, vaya hasta AWS IOT y registre un nuevo "Thing", descargue el certificado y conviertalo a .der como se ve en el tutorial
