@@ -168,13 +168,17 @@ q
 con esto saldra un aviso si desea salir de minicom, selecciona YES, y luego Enter.
 
 ## Cargar los scripts, certificados y llaves a la esp8266 usando una herramienta
+
+
 Tenemos (5) nodos Maestro, que cumplen la funcion de enviar datos obtenidos de los sensores de humedad y temperatura del sensor DHT11 al nodo esclavo o Gateway por medio del tranceptor NRF24L01, luego  de ser recibidos, el Gateway envia los datos a AWS IOT. Pero, ¿Que scripts son necesarios para eso?
+
 
 #### Nodo Maestro
 
 - [main.py](https://github.com/potier97/WSN-MICROPYTHON/blob/master/masterNode/main.py) 
 - [nrf24l01.py](https://github.com/potier97/WSN-MICROPYTHON/blob/master/masterNode/nrf24l01.py) 
 - [rf24.py](https://github.com/potier97/WSN-MICROPYTHON/blob/master/masterNode/rf24.py) 
+
 
 Ahora cargamos los scripts en los (5) nodos, teniendo los scripts en una subcarpeta del directorio del proyecto, ya que algunos de los scripts del nodos esclavo se llaman igual, y tambien copiamos el script de pyboard.py:
 
@@ -194,6 +198,8 @@ $ python ./pyboard.py --device /dev/ttyUSB0 -f cp rf24.py :rf24.py
 - [timeSynchronizer.py ](https://github.com/potier97/WSN-MICROPYTHON/blob/master/slaveNode/timeSynchronizer.py) 
 - [4f44f5eed4-certificate.cert.der](https://github.com/potier97/WSN-MICROPYTHON/blob/master/slaveNode/4f44f5eed4-certificate.cert.der) 
 - [4f44f5eed4-private.key.der](https://github.com/potier97/WSN-MICROPYTHON/blob/master/slaveNode/4f44f5eed4-private.key.der) 
+
+
 Luego cargamos los scripts del nodo Esclavo , al igual en otra sub carpeta del directorio del proyecto, ya que algunos de los scripts del nodos maestro se llaman igual, y tambien copiamos el script de pyboard.py:
 
 ```sh
