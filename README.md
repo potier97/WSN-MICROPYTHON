@@ -275,7 +275,7 @@ El siguiente diagrama de flujo muestra como es el proceso de envio de datos por 
 
 El siguiente diagrama muestra la solución IOT utilizando AWS con Lambda, DynamoDB e IoT firebase y Firebase con su base de datos en tiempo real.
 
-![architecture](diagram/arquitectura.png)
+![architecture](diagram/arquitecture.png)
 
 
 ## Visualizar los datos en consola, utilizando minicom
